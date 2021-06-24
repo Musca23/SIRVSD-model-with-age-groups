@@ -13,8 +13,8 @@ if __name__ == "__main__":
     "senior": 3
     }
     START = 0 # day of start of the observation period
-    END = 500 # day of end of the observation period
-    START_VACCINATION_GROUP = [-1, -1, -1, 0] # day of start of the vaccination period
+    END = 365 # day of end of the observation period
+    START_VACCINATION_GROUP = [0, 0, 0, 0] # day of start of the vaccination period
 
     # initial conditions
     S_0_GROUP = [0.99, 0.99, 0.99, 0.99] # Susceptible
@@ -24,12 +24,12 @@ if __name__ == "__main__":
     D_0_GROUP = [0, 0, 0, 0] # Deceased
 
     # model parameters
-    beta_matrix = np.array([[0.6,0,0,0],[0,0.6,0,0],[0,0,0.6,0],[0,0,0,0.6]]) # infection coefficient for each group
+    beta_matrix = np.array([[0.1,0.04,0.07,0.02],[0.04,0.1,0.09,0.02],[0.07,0.09,0.3,0.08],[0.02,0.02,0.08,0.08]]) # infection coefficient for each group TODO find the best values
     gamma = 1/15 # recovery coefficient (same for all group)
-    mu_group = [0.00009, 0.00005, 0.00688, 0.15987] # mortality coefficient for each group (case fataly rate ISS January 2021)
+    mu_group = [0.00009, 0.00005, 0.00688, 0.15987] # mortality coefficient for each group (case fataly rate ISS report January 2021)
     phi = 1/180 # transfer rate for loss of immunity from recovered (six months of immunity and same for all group)
     rho = 1/270 # transfer rate for loss of immunity from vaccinated (nine months of immunity and same for all group)
-    eta_group = [0.003, 0.003, 0.003, 0.01] # vaccination rate for each group
+    eta_group = [0.01, 0.01, 0.01, 0.01] # vaccination rate for each group TODO find the best values
 
     t = np.linspace(START,END,END-START+1) # setting the simulation time and the number of points
 
