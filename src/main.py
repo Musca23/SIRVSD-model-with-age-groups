@@ -13,7 +13,7 @@ if __name__ == "__main__":
     "senior": 3
     }
     START = 0 # day of start of the observation period
-    END = 365 # day of end of the observation period
+    END = 700 # day of end of the observation period
     START_VACCINATION_GROUP = [0, 0, 0, 0] # day of start of the vaccination period
 
     # initial conditions
@@ -24,12 +24,12 @@ if __name__ == "__main__":
     D_0_GROUP = [0, 0, 0, 0] # Deceased
 
     # model parameters
-    beta_matrix = np.array([[0.1,0.04,0.07,0.02],[0.04,0.1,0.09,0.02],[0.07,0.09,0.3,0.08],[0.02,0.02,0.08,0.08]]) # infection coefficient for each group TODO find the best values
+    beta_matrix = np.array([[0.05,0.01,0.04,0.008],[0.01,0.09,0.08,0.008],[0.04,0.08,0.1,0.02],[0.008,0.008,0.02,0.03]]) # infection coefficient for each group
     gamma = 1/15 # recovery coefficient (same for all group)
     mu_group = [0.00009, 0.00005, 0.00688, 0.15987] # mortality coefficient for each group (case fataly rate ISS report January 2021)
     phi = 1/180 # transfer rate for loss of immunity from recovered (six months of immunity and same for all group)
     rho = 1/270 # transfer rate for loss of immunity from vaccinated (nine months of immunity and same for all group)
-    eta_group = [0.01, 0.01, 0.01, 0.01] # vaccination rate for each group TODO find the best values
+    eta_group = [0.0025, 0.0025, 0.0025, 0.0025] # vaccination rate for each group
 
     t = np.linspace(START,END,END-START+1) # setting the simulation time and the number of points
 
@@ -47,4 +47,26 @@ if __name__ == "__main__":
 
     # ---------- PLOT RESULTS ----------
 
-    plt.plot_all_compartments_age_group(t, group_dict, results_dict)
+    # ----- No vaccination -----
+    # path = "./plots/no_vaccination/all_compartments_" # all compartments for each age group
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "./plots/no_vaccination/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
+
+    # ----- Vaccination strategy in ascending order -----
+    # path = "./plots/vaccination_strategy_ascending_order/all_compartments_" # age groups in ascending order
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "./plots/vaccination_strategy_ascending_order/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
+
+    # ----- Vaccination strategy in descending order -----
+    # path = "./plots/vaccination_strategy_descending_order/all_compartments_" # age groups in descending order
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "./plots/vaccination_strategy_descending_order/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
+
+    # ----- Vaccination strategy at the same time -----
+    # path = "./plots/vaccination_strategy_same_time/all_compartments_" # age groups at the same time
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "./plots/vaccination_strategy_same_time/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
