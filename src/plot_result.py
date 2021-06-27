@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # TODO define different plot functions
+# TODO comment all methods
+# TODO create method to compare all population with different vaccination strategy
 
 def plot_all_compartments_age_group(t, group_dict, results_dict, path):
     for group in group_dict:
@@ -43,3 +45,26 @@ def plot_all_compartments_entire_population(t, group_dict, results_dict, path):
         # Saving the figure.
         plt.savefig(path+".jpg")
         plt.show()
+
+def plot_specific_compartment_all_age_group(t, group_dict, vacc_strategy, results_dict, path, compartment_id):
+    plt.figure(figsize=(20,5))
+    if compartment_id == 1: # Infectious
+        comp_label = 'I(t)_'
+        image_path = "/infectious_comparison.jpg"
+        graph_title = "Mortality comparison - "
+    elif compartment_id == 4: # Deceased
+        comp_label = 'D(t)_'
+        image_path = "/deaths_comparison.jpg"
+        graph_title = "Infections comparison - "
+    for group in group_dict:
+        plt.plot(t, results_dict[vacc_strategy][group][:, compartment_id], label=comp_label+group)
+    plt.legend(loc='best')
+    plt.xticks(np.arange(t.min(), t.max()+1, 10))
+    plt.yticks(np.arange(0, 1.005, 0.05))
+    plt.xlabel('time')
+    plt.ylabel('value')
+    plt.title(graph_title+vacc_strategy)
+    plt.grid()
+    # Saving the figure.
+    plt.savefig(path+vacc_strategy+image_path)
+    plt.show()

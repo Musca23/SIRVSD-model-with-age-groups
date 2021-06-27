@@ -7,14 +7,14 @@ if __name__ == "__main__":
     # ---------- DEFINITION OF COSTANTS ----------
 
     group_dict = {
-    "children": 0,
-    "teenagers": 1,
-    "adults": 2,
-    "senior": 3
+        "children": 0,
+        "teenagers": 1,
+        "adults": 2,
+        "senior": 3
     }
     START = 0 # day of start of the observation period
-    END = 700 # day of end of the observation period
-    START_VACCINATION_GROUP = [0, 0, 0, 0] # day of start of the vaccination period
+    END = 365 # day of end of the observation period
+    START_VACCINATION_GROUP = [-1, -1, -1, -1] # day of start of the vaccination period
 
     # initial conditions
     S_0_GROUP = [0.99, 0.99, 0.99, 0.99] # Susceptible
@@ -29,13 +29,13 @@ if __name__ == "__main__":
     mu_group = [0.00009, 0.00005, 0.00688, 0.15987] # mortality coefficient for each group (case fataly rate ISS report January 2021)
     phi = 1/180 # transfer rate for loss of immunity from recovered (six months of immunity and same for all group)
     rho = 1/270 # transfer rate for loss of immunity from vaccinated (nine months of immunity and same for all group)
-    eta_group = [0.0025, 0.0025, 0.0025, 0.0025] # vaccination rate for each group
+    eta_group = [0.01, 0.01, 0.01, 0.01] # vaccination rate for each group
 
     t = np.linspace(START,END,END-START+1) # setting the simulation time and the number of points
 
     # ---------- FUNCTION CALL ----------
 
-    results_dict = {}
+    """results_dict = {}
     x_0 = [*S_0_GROUP, *I_0_GROUP, *R_0_GROUP, *V_0_GROUP, *D_0_GROUP] # unpacking list operator
     y = sir_solver(t, beta_matrix, gamma, mu_group, phi, rho, eta_group, x_0, START_VACCINATION_GROUP)
     _, n_total_column = y.shape
@@ -43,30 +43,59 @@ if __name__ == "__main__":
     n_compartments = int(n_total_column/n_groups) # number of compartments of the model
     for group_name, group_id in group_dict.items():
         # select the right columns (the compartments) for each age group 
-        results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]
+        results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
 
-    # ---------- PLOT RESULTS ----------
+    # ---------- SOME PLOT EXPERIMENTS ----------
 
     # ----- No vaccination -----
-    # path = "./plots/no_vaccination/all_compartments_" # all compartments for each age group
+    # path = "../plots/no_vaccination/all_compartments_" # all compartments for each age group
     # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "./plots/no_vaccination/all_compartments_entire_population" # entire population
+    # path = "../plots/no_vaccination/all_compartments_entire_population" # entire population
     # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
 
     # ----- Vaccination strategy in ascending order -----
-    # path = "./plots/vaccination_strategy_ascending_order/all_compartments_" # age groups in ascending order
+    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_" # age groups in ascending order
     # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "./plots/vaccination_strategy_ascending_order/all_compartments_entire_population" # entire population
+    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_entire_population" # entire population
     # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
 
     # ----- Vaccination strategy in descending order -----
-    # path = "./plots/vaccination_strategy_descending_order/all_compartments_" # age groups in descending order
+    # path = "../plots/vaccination_strategy_descending_order/all_compartments_" # age groups in descending order
     # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "./plots/vaccination_strategy_descending_order/all_compartments_entire_population" # entire population
+    # path = "../plots/vaccination_strategy_descending_order/all_compartments_entire_population" # entire population
     # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
 
     # ----- Vaccination strategy at the same time -----
-    # path = "./plots/vaccination_strategy_same_time/all_compartments_" # age groups at the same time
+    # path = "../plots/vaccination_strategy_same_time/all_compartments_" # age groups at the same time
     # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "./plots/vaccination_strategy_same_time/all_compartments_entire_population" # entire population
+    # path = "../plots/vaccination_strategy_same_time/all_compartments_entire_population" # entire population
     # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
+
+    
+    """ COMPARE MORTALITY AND INFECTIONS WITH DIFFERENT AGE GROUPS
+    vaccination_dict = {
+        "no_vaccination": 0,
+        "vaccination_strategy_ascending_order": 1,
+        "vaccination_strategy_descending_order": 2,
+        "vaccination_strategy_same_time": 3
+    }
+    results_dict = {}
+    x_0 = [*S_0_GROUP, *I_0_GROUP, *R_0_GROUP, *V_0_GROUP, *D_0_GROUP] # unpacking list operator
+    for vacc_name, vacc_id in vaccination_dict.items():
+        results_dict[vacc_name] = {}
+        if(vacc_id == 1): #ascending order
+            START_VACCINATION_GROUP = [0, 30, 60, 90]
+        elif(vacc_id == 2): #descending order
+            START_VACCINATION_GROUP = [90, 60, 30, 0]
+        elif(vacc_id == 3): #same time
+            START_VACCINATION_GROUP = [0, 0, 0, 0]
+            eta_group = [0.0025, 0.0025, 0.0025, 0.0025]
+        y = sir_solver(t, beta_matrix, gamma, mu_group, phi, rho, eta_group, x_0, START_VACCINATION_GROUP)
+        _, n_total_column = y.shape
+        n_groups = len(group_dict) # number of age groups
+        n_compartments = int(n_total_column/n_groups) # number of compartments of the model
+        for group_name, group_id in group_dict.items():
+            # select the right columns (the compartments) for each age group 
+            results_dict[vacc_name][group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]
+    path = "./plots/" # all compartments for each age group
+    plt.plot_specific_compartment_all_age_group(t, group_dict, "vaccination_strategy_same_time", results_dict, path, 1)"""
