@@ -2,6 +2,9 @@ import numpy as np
 from sir_solver import sir_solver
 import plot_result as plt
 
+# TODO try to implement also a solve_ivp solver
+# TODO implement logistic function for vaccination
+
 if __name__ == "__main__":
 
     # ---------- DEFINITION OF COSTANTS ----------
@@ -33,7 +36,7 @@ if __name__ == "__main__":
 
     t = np.linspace(START,END,END-START+1) # setting the simulation time and the number of points
 
-    # ---------- FUNCTION CALL ----------
+    # ---------- FUNCTION CALL WITH SAME VACCINATION STRATEGY ----------
 
     """results_dict = {}
     x_0 = [*S_0_GROUP, *I_0_GROUP, *R_0_GROUP, *V_0_GROUP, *D_0_GROUP] # unpacking list operator
@@ -45,35 +48,9 @@ if __name__ == "__main__":
         # select the right columns (the compartments) for each age group 
         results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
 
-    # ---------- SOME PLOT EXPERIMENTS ----------
+    # ---------- FUNCTION CALL WITH COMBINATION OF VACCINATION STRATEGIES ----------
 
-    # ----- No vaccination -----
-    # path = "../plots/no_vaccination/all_compartments_" # all compartments for each age group
-    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "../plots/no_vaccination/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
-
-    # ----- Vaccination strategy in ascending order -----
-    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_" # age groups in ascending order
-    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
-
-    # ----- Vaccination strategy in descending order -----
-    # path = "../plots/vaccination_strategy_descending_order/all_compartments_" # age groups in descending order
-    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "../plots/vaccination_strategy_descending_order/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
-
-    # ----- Vaccination strategy at the same time -----
-    # path = "../plots/vaccination_strategy_same_time/all_compartments_" # age groups at the same time
-    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "../plots/vaccination_strategy_same_time/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path)
-
-    
-    """ COMPARE MORTALITY AND INFECTIONS WITH DIFFERENT AGE GROUPS
-    vaccination_dict = {
+    """vaccination_dict = {
         "no_vaccination": 0,
         "vaccination_strategy_ascending_order": 1,
         "vaccination_strategy_descending_order": 2,
@@ -96,6 +73,35 @@ if __name__ == "__main__":
         n_compartments = int(n_total_column/n_groups) # number of compartments of the model
         for group_name, group_id in group_dict.items():
             # select the right columns (the compartments) for each age group 
-            results_dict[vacc_name][group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]
-    path = "./plots/" # all compartments for each age group
-    plt.plot_specific_compartment_all_age_group(t, group_dict, "vaccination_strategy_same_time", results_dict, path, 1)"""
+            results_dict[vacc_name][group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
+
+    # ---------- SOME PLOT EXPERIMENTS ----------
+
+    # ----- No vaccination -----
+    # path = "../plots/no_vaccination/all_compartments_" # all compartments for each age group
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "../plots/no_vaccination/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+
+    # ----- Vaccination strategy in ascending order -----
+    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_" # age groups in ascending order
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+
+    # ----- Vaccination strategy in descending order -----
+    # path = "../plots/vaccination_strategy_descending_order/all_compartments_" # age groups in descending order
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "../plots/vaccination_strategy_descending_order/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+
+    # ----- Vaccination strategy at the same time -----
+    # path = "../plots/vaccination_strategy_same_time/all_compartments_" # age groups at the same time
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "../plots/vaccination_strategy_same_time/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+
+    # ----- Compare different vaccination strategies -----
+    # path = "./plots/strategy_comparison"
+    # plt.plot_specific_compartment_compare_strategy(t, results_dict, path, 1, END-START+1)
+    
