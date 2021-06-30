@@ -1,7 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 # TODO define different plot functions
+# TODO define eradication disease method with bar charts
+# TODO define number of individuals in each compartment at the end of the year with pie chart
+# TODO check lab24 and rolling mean
 # TODO comment all methods
 
 def plot_all_compartments_age_group(t, group_dict, results_dict, path):
@@ -87,7 +91,6 @@ def plot_specific_compartment_compare_strategy(t, results_dict, path, compartmen
         for age_group, values in item_age_group.items():
             population[vacc_strategy] += values[:, compartment_id]
         population[vacc_strategy] = population[vacc_strategy]/4 # values have to remain between 0 and 1
-    # number_strategies = len(results_dict) # number of vaccination startegy
     plt.figure(figsize=(20,5))
     for vacc_strategy in results_dict:
         plt.plot(t, population[vacc_strategy], label=comp_label+vacc_strategy)
@@ -99,5 +102,36 @@ def plot_specific_compartment_compare_strategy(t, results_dict, path, compartmen
     plt.title(graph_title+" entire population")
     plt.grid()
     # Saving the figure.
-    plt.savefig(path+image_path+".jpg")
+    plt.savefig(path+image_path)
     plt.show()
+
+def plot_pie_chart_zero_day(group_dict, vacc_strategy, results_dict, path, compartment_id, length_period):
+    if compartment_id == 1: # Infectious
+        comp_label = 'infections'
+        image_path = "/zero_day_infection.jpg"
+    elif compartment_id == 4: # Deceased
+        comp_label = 'deaths'
+        image_path = "/zero_day_deaths.jpg"
+    zero_day = []
+    population = np.zeros((length_period, 5))
+    for group in group_dict:
+        population += results_dict[group]
+    population = population/4 # values have to remain between 0 and 1
+    measurements = population[:, compartment_id].T # transpose the measurements for a specific compartment
+    for idx, x in np.ndenumerate(measurements):
+        if idx != 0 and math.isclose(x, measurements[idx[0]-1], abs_tol=0.00001):
+            zero_day.append(idx[0])
+    if zero_day: # check if we actually have a zero day (zero deaths or zero infections in one day)        
+        # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+        labels = 'Susceptible', 'Infectious', 'Recovered', 'Vaccinated', 'Deaceased'
+        sizes = population[zero_day[0], :].reshape(-1) # plt.pie require an 1-D to suppress warnings
+        explode = (0, 0, 0, 0, 0.1)  # only "explode" the 2nd slice (i.e. 'Hogs')
+        colors = ['g','m','r','b', 'c']
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
+                shadow=True, startangle=90)
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        plt.title("'Zero Day' for "+comp_label+" with "+vacc_strategy+" (day "+str(zero_day[0])+") ")
+        # Saving the figure.
+        plt.savefig(path+vacc_strategy+image_path)
+        plt.show()

@@ -17,7 +17,7 @@ if __name__ == "__main__":
     }
     START = 0 # day of start of the observation period
     END = 365 # day of end of the observation period
-    START_VACCINATION_GROUP = [-1, -1, -1, -1] # day of start of the vaccination period
+    START_VACCINATION_GROUP = [90, 60, 30, 0] # day of start of the vaccination period
 
     # initial conditions
     S_0_GROUP = [0.99, 0.99, 0.99, 0.99] # Susceptible
@@ -48,6 +48,36 @@ if __name__ == "__main__":
         # select the right columns (the compartments) for each age group 
         results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
 
+    # ---------- SOME PLOT EXPERIMENTS WITH ABOVE FUNCTION CALL ----------
+
+    # ----- No vaccination -----
+    # path = "../plots/no_vaccination/all_compartments_" # all compartments for each age group
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "../plots/no_vaccination/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+
+    # ----- Vaccination strategy in ascending order -----
+    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_" # age groups in ascending order
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+
+    # ----- Vaccination strategy in descending order -----
+    # path = "../plots/vaccination_strategy_descending_order/all_compartments_" # age groups in descending order
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "../plots/vaccination_strategy_descending_order/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+
+    # ----- Vaccination strategy at the same time -----
+    # path = "../plots/vaccination_strategy_same_time/all_compartments_" # age groups at the same time
+    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
+    # path = "../plots/vaccination_strategy_same_time/all_compartments_entire_population" # entire population
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+
+    # ----- Pie Chart for 'Zero Day' (zero infections or zero deaths in one day) -----
+    # path = "../plots/"
+    # plt.plot_pie_chart_zero_day(group_dict, "no_vaccination", results_dict,  path, 1, END-START+1)
+
     # ---------- FUNCTION CALL WITH COMBINATION OF VACCINATION STRATEGIES ----------
 
     """vaccination_dict = {
@@ -75,33 +105,8 @@ if __name__ == "__main__":
             # select the right columns (the compartments) for each age group 
             results_dict[vacc_name][group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
 
-    # ---------- SOME PLOT EXPERIMENTS ----------
-
-    # ----- No vaccination -----
-    # path = "../plots/no_vaccination/all_compartments_" # all compartments for each age group
-    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "../plots/no_vaccination/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
-
-    # ----- Vaccination strategy in ascending order -----
-    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_" # age groups in ascending order
-    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "../plots/vaccination_strategy_ascending_order/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
-
-    # ----- Vaccination strategy in descending order -----
-    # path = "../plots/vaccination_strategy_descending_order/all_compartments_" # age groups in descending order
-    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "../plots/vaccination_strategy_descending_order/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
-
-    # ----- Vaccination strategy at the same time -----
-    # path = "../plots/vaccination_strategy_same_time/all_compartments_" # age groups at the same time
-    # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
-    # path = "../plots/vaccination_strategy_same_time/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+    # ---------- SOME PLOT EXPERIMENTS WITH ABOVE FUNCTION CALL ----------
 
     # ----- Compare different vaccination strategies -----
-    # path = "./plots/strategy_comparison"
+    # path = "../plots/strategy_comparison"
     # plt.plot_specific_compartment_compare_strategy(t, results_dict, path, 1, END-START+1)
-    
