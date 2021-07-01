@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import math
 
 # TODO define different plot functions
-# TODO define number of individuals in each compartment at the end of the year with bar chart
 # TODO check lab24 and rolling mean
 # TODO comment all methods
 
@@ -145,3 +144,42 @@ def plot_pie_chart_zero_day(group_dict, vacc_strategy, results_dict, path, compa
         # Saving the figure.
         plt.savefig(path+vacc_strategy+image_path)
         plt.show()
+
+def plot_bar_chart_compartment_compare_strategy(group_dict, results_dict, vaccination_dict, path, compartment_id, length_period):
+    population = {}
+    for age_group in group_dict:
+        population[age_group] = []
+    if compartment_id == 1: # Infectious
+        comp_label = 'I(t)_'
+        graph_title = "Infections comparison -"
+        image_path = "/bar_chart_infectious_comparison.jpg"
+    elif compartment_id == 2: # Recovered
+        comp_label = 'R(t)_'
+        graph_title = "Recovery comparison - "
+        image_path = "/bar_chart_recovered_comparison.jpg"
+    elif compartment_id == 4: # Deceased
+        comp_label = 'D(t)_'
+        graph_title = "Mortality comparison - "
+        image_path = "/bar_chart_deaths_comparison.jpg"
+    for vacc_strategy, item_age_group in results_dict.items():
+        for age_group, values in item_age_group.items():
+            population[age_group].append(values[length_period-1, compartment_id])
+    labels = [vacc for vacc in vaccination_dict]
+    width = 0.35       # the width of the bars: can also be len(x) sequence
+    fig, ax = plt.subplots()
+    tmp = [0,None]
+    for age_group in group_dict:
+        population[age_group] = np.array(population[age_group])
+        population[age_group] = (population[age_group]/4)*100 # values in percent
+        if tmp[0] == 0:
+            ax.bar(labels, population[age_group], width,label=comp_label+age_group)
+        else:
+            ax.bar(labels, population[age_group], width, bottom=population[tmp[1]],label=comp_label+age_group)
+        tmp[0]+= 1
+        tmp[1] = age_group
+    ax.set_ylabel('% of population')
+    ax.set_title(graph_title+ " entire population")
+    ax.legend()
+    # Saving the figure.
+    plt.savefig(path+image_path)
+    plt.show()

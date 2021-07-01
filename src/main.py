@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     # ---------- FUNCTION CALL WITH SAME VACCINATION STRATEGY ----------
 
-    results_dict = {}
+    """results_dict = {}
     x_0 = [*S_0_GROUP, *I_0_GROUP, *R_0_GROUP, *V_0_GROUP, *D_0_GROUP] # unpacking list operator
     y = sir_solver(t, beta_matrix, gamma, mu_group, phi, rho, eta_group, x_0, START_VACCINATION_GROUP)
     _, n_total_column = y.shape
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     n_compartments = int(n_total_column/n_groups) # number of compartments of the model
     for group_name, group_id in group_dict.items():
         # select the right columns (the compartments) for each age group 
-        results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]
+        results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
 
     # ---------- SOME PLOT EXPERIMENTS WITH ABOVE FUNCTION CALL ----------
 
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     # ---------- FUNCTION CALL WITH COMBINATION OF VACCINATION STRATEGIES ----------
 
-    """vaccination_dict = {
+    vaccination_dict = {
         "no_vaccination": 0,
         "vaccination_strategy_ascending_order": 1,
         "vaccination_strategy_descending_order": 2,
@@ -103,10 +103,14 @@ if __name__ == "__main__":
         n_compartments = int(n_total_column/n_groups) # number of compartments of the model
         for group_name, group_id in group_dict.items():
             # select the right columns (the compartments) for each age group 
-            results_dict[vacc_name][group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
+            results_dict[vacc_name][group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]
 
     # ---------- SOME PLOT EXPERIMENTS WITH ABOVE FUNCTION CALL ----------
 
     # ----- Compare different vaccination strategies -----
     # path = "../plots/strategy_comparison"
     # plt.plot_specific_compartment_compare_strategy(t, results_dict, path, 1, END-START+1)
+
+    # ----- Stacked Bar Chart to compare mortality with different vaccination strategies ----
+    # path = "../plots/strategy_comparison"
+    # plt.plot_bar_chart_compartment_compare_strategy(group_dict, results_dict, vaccination_dict, path, 4, END-START+1)
