@@ -17,7 +17,7 @@ if __name__ == "__main__":
     }
     START = 0 # day of start of the observation period
     END = 365 # day of end of the observation period
-    START_VACCINATION_GROUP = [90, 60, 30, 0] # day of start of the vaccination period
+    START_VACCINATION_GROUP = [-1, -1, -1, -1] # day of start of the vaccination period
 
     # initial conditions
     S_0_GROUP = [0.99, 0.99, 0.99, 0.99] # Susceptible
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     # ---------- FUNCTION CALL WITH SAME VACCINATION STRATEGY ----------
 
-    """results_dict = {}
+    results_dict = {}
     x_0 = [*S_0_GROUP, *I_0_GROUP, *R_0_GROUP, *V_0_GROUP, *D_0_GROUP] # unpacking list operator
     y = sir_solver(t, beta_matrix, gamma, mu_group, phi, rho, eta_group, x_0, START_VACCINATION_GROUP)
     _, n_total_column = y.shape
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     n_compartments = int(n_total_column/n_groups) # number of compartments of the model
     for group_name, group_id in group_dict.items():
         # select the right columns (the compartments) for each age group 
-        results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
+        results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]
 
     # ---------- SOME PLOT EXPERIMENTS WITH ABOVE FUNCTION CALL ----------
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # path = "../plots/no_vaccination/all_compartments_" # all compartments for each age group
     # plt.plot_all_compartments_age_group(t, group_dict, results_dict, path)
     # path = "../plots/no_vaccination/all_compartments_entire_population" # entire population
-    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)
+    # plt.plot_all_compartments_entire_population(t, group_dict, results_dict, path, END-START+1)   
 
     # ----- Vaccination strategy in ascending order -----
     # path = "../plots/vaccination_strategy_ascending_order/all_compartments_" # age groups in ascending order

@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 # TODO define different plot functions
-# TODO define eradication disease method with bar charts
-# TODO define number of individuals in each compartment at the end of the year with pie chart
+# TODO define number of individuals in each compartment at the end of the year with bar chart
 # TODO check lab24 and rolling mean
 # TODO comment all methods
 
@@ -27,7 +26,9 @@ def plot_all_compartments_age_group(t, group_dict, results_dict, path):
         plt.savefig(path+group+".jpg")
         plt.show()
 
-def plot_all_compartments_entire_population(t, group_dict, results_dict, path, length_period):
+def plot_all_compartments_entire_population(t, group_dict, results_dict, path, length_period, eradication = False):
+        eradication_disease_day = None
+        space_values_time = 10 # spacing between values
         population = np.zeros((length_period, 5))
         for group in group_dict:
             population += results_dict[group]
@@ -38,13 +39,22 @@ def plot_all_compartments_entire_population(t, group_dict, results_dict, path, l
         plt.plot(t, population[:, 2], 'r', label='R(t)')
         plt.plot(t, population[:, 3], 'b', label='V(t)')
         plt.plot(t, population[:, 4], 'k', label='D(t)')
+        if eradication:
+            space_values_time = 30 # we expected the eradication of the disease after some years, so we study the curve month by month
+            measurements = population[:, 1].T # transpose the measurements to work with a 1-D array
+            for idx, x in np.ndenumerate(measurements):
+                if x <= 1e-6: # very very little fraction of infectious w.r.t the whole population
+                    eradication_disease_day = idx[0]
+                    break
         plt.legend(loc='best')
-        plt.xticks(np.arange(t.min(), t.max()+1, 10))
+        plt.xticks(np.arange(t.min(), t.max()+1, space_values_time))
         plt.yticks(np.arange(0, 1.005, 0.05))
         plt.xlabel('time')
         plt.ylabel('value')
         plt.title("Entire population")
         plt.grid()
+        if eradication_disease_day is not None:
+            plt.annotate('Eradication disease', xy=(eradication_disease_day, 0), xytext=(180, 0.85), arrowprops=dict(facecolor='black', arrowstyle='->'),)
         # Saving the figure.
         plt.savefig(path+".jpg")
         plt.show()
