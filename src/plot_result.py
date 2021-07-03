@@ -4,6 +4,7 @@ import math
 
 # TODO define different plot functions
 # TODO check lab24 and rolling mean
+# TODO compute R0 and Rt
 # TODO comment all methods
 
 def plot_all_compartments_age_group(t, group_dict, results_dict, path):
@@ -22,7 +23,7 @@ def plot_all_compartments_age_group(t, group_dict, results_dict, path):
         plt.title(group)
         plt.grid()
         # Saving the figure.
-        plt.savefig(path+group+".jpg")
+        # plt.savefig(path+group+".jpg")
         plt.show()
 
 def plot_all_compartments_entire_population(t, group_dict, results_dict, path, length_period, eradication = False):
@@ -55,7 +56,7 @@ def plot_all_compartments_entire_population(t, group_dict, results_dict, path, l
         if eradication_disease_day is not None:
             plt.annotate('Eradication disease', xy=(eradication_disease_day, 0), xytext=(180, 0.85), arrowprops=dict(facecolor='black', arrowstyle='->'),)
         # Saving the figure.
-        plt.savefig(path+".jpg")
+        # plt.savefig(path+".jpg")
         plt.show()
 
 def plot_specific_compartment_all_age_group(t, group_dict, vacc_strategy, results_dict, path, compartment_id):
@@ -78,7 +79,7 @@ def plot_specific_compartment_all_age_group(t, group_dict, vacc_strategy, result
     plt.title(graph_title+vacc_strategy)
     plt.grid()
     # Saving the figure.
-    plt.savefig(path+vacc_strategy+image_path)
+    # plt.savefig(path+vacc_strategy+image_path)
     plt.show()
 
 def plot_specific_compartment_compare_strategy(t, results_dict, path, compartment_id, length_period):
@@ -111,7 +112,7 @@ def plot_specific_compartment_compare_strategy(t, results_dict, path, compartmen
     plt.title(graph_title+" entire population")
     plt.grid()
     # Saving the figure.
-    plt.savefig(path+image_path)
+    # plt.savefig(path+image_path)
     plt.show()
 
 def plot_pie_chart_zero_day(group_dict, vacc_strategy, results_dict, path, compartment_id, length_period):
@@ -142,7 +143,7 @@ def plot_pie_chart_zero_day(group_dict, vacc_strategy, results_dict, path, compa
         ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
         plt.title("'Zero Day' for "+comp_label+" with "+vacc_strategy+" (day "+str(zero_day[0])+") ")
         # Saving the figure.
-        plt.savefig(path+vacc_strategy+image_path)
+        # plt.savefig(path+vacc_strategy+image_path)
         plt.show()
 
 def plot_bar_chart_compartment_compare_strategy(group_dict, results_dict, vaccination_dict, path, compartment_id, length_period):
@@ -181,5 +182,5 @@ def plot_bar_chart_compartment_compare_strategy(group_dict, results_dict, vaccin
     ax.set_title(graph_title+ " entire population")
     ax.legend()
     # Saving the figure.
-    plt.savefig(path+image_path)
+    # plt.savefig(path+image_path)
     plt.show()
