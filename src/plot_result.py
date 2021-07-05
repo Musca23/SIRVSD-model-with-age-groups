@@ -2,11 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-# TODO check lab24 and rolling mean
-# TODO check all papers for details
-# TODO compute R0 and Rt
-# TODO check prof's slides
-
 def plot_all_compartments_age_group(t, group_dict, results_dict, path = None):
     """Line plot to show all compartment for a specific age group
 

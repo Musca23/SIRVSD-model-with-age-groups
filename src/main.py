@@ -1,8 +1,12 @@
 import numpy as np
-from sir_solver import sir_solver
+from sirvd_solver import sirvd_solver
 import plot_result as plt
 
 # TODO implement logistic function for vaccination
+# TODO check lab24 and rolling mean
+# TODO check all papers for details
+# TODO compute R0 and Rt
+# TODO check prof's slides
 
 if __name__ == "__main__":
 
@@ -37,15 +41,15 @@ if __name__ == "__main__":
 
     # ---------- FUNCTION CALL WITH SAME VACCINATION STRATEGY ----------
 
-    """results_dict = {}
+    results_dict = {}
     x_0 = [*S_0_GROUP, *I_0_GROUP, *R_0_GROUP, *V_0_GROUP, *D_0_GROUP] # unpacking list operator
-    y = sir_solver(t, beta_matrix, gamma, mu_group, phi, rho, eta_group, x_0, START_VACCINATION_GROUP)
+    y = sirvd_solver(t, beta_matrix, gamma, mu_group, phi, rho, eta_group, x_0, START_VACCINATION_GROUP)
     _, n_total_column = y.shape
     n_groups = len(group_dict) # number of age groups
     n_compartments = int(n_total_column/n_groups) # number of compartments of the model
     for group_name, group_id in group_dict.items():
         # select the right columns (the compartments) for each age group 
-        results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]"""
+        results_dict[group_name] = y[:,[group_id+n_groups*j for j in range(0,n_compartments)]]
 
     # ---------- SOME PLOT EXPERIMENTS WITH ABOVE FUNCTION CALL ----------
 
@@ -96,7 +100,7 @@ if __name__ == "__main__":
         elif(vacc_id == 3): # same time
             START_VACCINATION_GROUP = [0, 0, 0, 0]
             eta_group = [0.0025, 0.0025, 0.0025, 0.0025]
-        y = sir_solver(t, beta_matrix, gamma, mu_group, phi, rho, eta_group, x_0, START_VACCINATION_GROUP)
+        y = sirvd_solver(t, beta_matrix, gamma, mu_group, phi, rho, eta_group, x_0, START_VACCINATION_GROUP)
         _, n_total_column = y.shape
         n_groups = len(group_dict) # number of age groups
         n_compartments = int(n_total_column/n_groups) # number of compartments of the model

@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.integrate import odeint, solve_ivp
 
-def sir_solver(t,beta_matrix,gamma,mu_group,phi, rho,eta_group,x0,start_vaccination):
+def sirvd_solver(t,beta_matrix,gamma,mu_group,phi, rho,eta_group,x0,start_vaccination):
     """Wrapper function to compute ODEs using different APIs (currently only with methods of SciPy)
 
     Args:
@@ -32,7 +32,7 @@ def sir_solver(t,beta_matrix,gamma,mu_group,phi, rho,eta_group,x0,start_vaccinat
         else:
             return eta
     
-    def sir(t,x,beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate):
+    def sirvd(t,x,beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate):
         """
         Function called by solve_ivp (or odeint) to compute the derivative of x at t.
         """
@@ -55,8 +55,8 @@ def sir_solver(t,beta_matrix,gamma,mu_group,phi, rho,eta_group,x0,start_vaccinat
         return derivatives_matrix.reshape(-1) # return all measurements with a 1-D array
 
     # odeint solve a system of ordinary differential equations using lsoda from the FORTRAN library odepack.
-    # y = odeint(sir,x0,t,tfirst=True,args=(beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate,))
+    # y = odeint(sirvd,x0,t,tfirst=True,args=(beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate,))
     # return y
     # for new code, use scipy.integrate.solve_ivp to solve a differential equation (SciPy documentation).
-    sol = solve_ivp(sir,[t[0],t[-1]],x0,t_eval=t,args=(beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate,))
+    sol = solve_ivp(sirvd,[t[0],t[-1]],x0,t_eval=t,args=(beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate,))
     return sol.y.T
