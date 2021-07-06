@@ -182,7 +182,7 @@ def plot_pie_chart_zero_day(group_dict, vacc_strategy, results_dict, compartment
         # Pie chart, where the slices will be ordered and plotted counter-clockwise:
         labels = 'Susceptible', 'Infectious', 'Recovered', 'Vaccinated', 'Deaceased'
         sizes = population[zero_day[0], :].reshape(-1) # plt.pie require an 1-D array to suppress warnings
-        explode = (0, 0, 0, 0, 0.1)  # only "explode" the fifthslice (i.e. 'Deceased')
+        explode = (0, 0, 0, 0, 0.1)  # only "explode" the fifth slice (i.e. 'Deceased')
         colors = ['g','m','r','b', 'c']
         fig1, ax1 = plt.subplots()
         ax1.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',

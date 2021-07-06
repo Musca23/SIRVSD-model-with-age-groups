@@ -2,9 +2,8 @@ import numpy as np
 from sirvd_solver import sirvd_solver
 import plot_result as plt
 
-# TODO check lab24 and rolling mean
-# TODO check all papers for details
 # TODO compute R0 and Rt
+# TODO different trials for configurations
 
 if __name__ == "__main__":
 
