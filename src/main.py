@@ -2,11 +2,9 @@ import numpy as np
 from sirvd_solver import sirvd_solver
 import plot_result as plt
 
-# TODO implement logistic function for vaccination
 # TODO check lab24 and rolling mean
 # TODO check all papers for details
 # TODO compute R0 and Rt
-# TODO check prof's slides
 
 if __name__ == "__main__":
 
@@ -33,9 +31,9 @@ if __name__ == "__main__":
     beta_matrix = np.array([[0.05,0.01,0.04,0.008],[0.01,0.09,0.08,0.008],[0.04,0.08,0.1,0.02],[0.008,0.008,0.02,0.03]]) # infection coefficient for each group
     gamma = 1/15 # recovery coefficient (same for all group)
     mu_group = [0.00009, 0.00005, 0.00688, 0.15987] # mortality coefficient for each group (case fatality rate ISS report January 2021)
-    phi = 1/180 # transfer rate for loss of immunity from recovered (six months of immunity and same for all group)
-    rho = 1/270 # transfer rate for loss of immunity from vaccinated (nine months of immunity and same for all group)
-    eta_group = [0.01, 0.01, 0.01, 0.01] # vaccination rate for each group
+    phi = 1/180 # transfer coefficient for loss of immunity from recovered (six months of immunity and same for all group)
+    rho = 1/270 # transfer coefficient for loss of immunity from vaccinated (nine months of immunity and same for all group)
+    eta_group = [0.01, 0.01, 0.01, 0.01] # vaccination coefficient for each group
 
     t = np.linspace(START,END,END-START+1) # setting the simulation time and the number of points
 

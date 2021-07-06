@@ -9,19 +9,19 @@ def sirvd_solver(t,beta_matrix,gamma,mu_group,phi, rho,eta_group,x0,start_vaccin
         beta_matrix (np.ndarray): infection coefficient for each group
         gamma (float): recovery coefficient (same for all group)
         mu_group (list): mortality coefficient for each group (case fatality rate ISS report January 2021)
-        phi (float): transfer rate for loss of immunity from recovered (six months of immunity and same for all group)
-        rho (float): transfer rate for loss of immunity from vaccinated (nine months of immunity and same for all group)
-        eta_group (list): vaccination rate for each group
+        phi (float): transfer coefficient for loss of immunity from recovered (six months of immunity and same for all group)
+        rho (float): transfer coefficient for loss of immunity from vaccinated (nine months of immunity and same for all group)
+        eta_group (list): vaccination coefficient for each group
         x0 (list): initial conditions
         start_vaccination (list): day of start of the vaccination period for each group
     """
 
-    def assign_vaccination_rate(t, eta, start_vaccination):
-        """Auxiliary function to assign time-dependent vaccination rate eta
+    def assign_vaccination_coefficient(t, eta, start_vaccination):
+        """Auxiliary function to assign time-dependent vaccination coefficient eta
 
         Args:
             t (float): scalar representing the current timestamp
-            eta (float): vaccination rate
+            eta (float): vaccination coefficient
             start_vaccination (int): starting day of vaccination
 
         Returns:
@@ -32,7 +32,7 @@ def sirvd_solver(t,beta_matrix,gamma,mu_group,phi, rho,eta_group,x0,start_vaccin
         else:
             return eta
     
-    def sirvd(t,x,beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate):
+    def sirvd(t,x,beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_coefficient):
         """
         Function called by solve_ivp (or odeint) to compute the derivative of x at t.
         """
@@ -46,7 +46,7 @@ def sirvd_solver(t,beta_matrix,gamma,mu_group,phi, rho,eta_group,x0,start_vaccin
             r = x[j+n_groups*2] # Recovered
             v = x[j+n_groups*3] # Vaccinated
             d = x[j+n_groups*4] # Deceased
-            eta = assign_vaccination_rate(t,eta_group[j],start_vaccination[j]) # time-dependent parameter
+            eta = assign_vaccination_coefficient(t,eta_group[j],start_vaccination[j]) # time-dependent parameter
             derivatives_matrix[0][j] = phi*r - eta*s + rho*v - s*np.dot(beta_matrix[j],n_infectious) # dsdt
             derivatives_matrix[1][j] = s*np.dot(beta_matrix[j],n_infectious) - gamma*i - mu_group[j]*i # didt
             derivatives_matrix[2][j] = gamma*i - phi*r # drdt
@@ -55,8 +55,8 @@ def sirvd_solver(t,beta_matrix,gamma,mu_group,phi, rho,eta_group,x0,start_vaccin
         return derivatives_matrix.reshape(-1) # return all measurements with a 1-D array
 
     # odeint solve a system of ordinary differential equations using lsoda from the FORTRAN library odepack.
-    # y = odeint(sirvd,x0,t,tfirst=True,args=(beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate,))
+    # y = odeint(sirvd,x0,t,tfirst=True,args=(beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_coefficient,))
     # return y
     # for new code, use scipy.integrate.solve_ivp to solve a differential equation (SciPy documentation).
-    sol = solve_ivp(sirvd,[t[0],t[-1]],x0,t_eval=t,args=(beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_rate,))
+    sol = solve_ivp(sirvd,[t[0],t[-1]],x0,t_eval=t,args=(beta_matrix,gamma,mu_group,phi,rho,eta_group,start_vaccination,assign_vaccination_coefficient,))
     return sol.y.T
