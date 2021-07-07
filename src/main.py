@@ -2,8 +2,6 @@ import numpy as np
 from sirvd_solver import sirvd_solver
 import plot_result as plt
 
-# TODO compute R0 and Rt
-# TODO different trials for configurations
 
 if __name__ == "__main__":
 

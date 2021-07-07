@@ -11,7 +11,7 @@ Install requirements:<br>
 ### Run the project
 
 Experiments can be run by executing the `main.py` as in `python src/main.py`.
-In the 'main' code you can find the definition of the costants, the initial conditions and the model parameters. You can change all of them to compute ODEs and run different experiments (for example different vaccination strategies), based on your interests. If you want to analyze the results only for one vaccination strategy, you can comment the code section 'FUNCTION CALL WITH COMBINATION OF VACCINATION STRATEGIES', otherwise the previous one in the code. Then, you can comment or uncomment the plotting function calls to show certain graphs instead of others.
+In the 'main' code you can find the definition of the costants, the initial conditions and the model parameters. You can change all of them to compute ODEs and run different experiments (for example different vaccination strategies), based on your interests. If you want to analyze the results only for one vaccination strategy, you can comment the code section `FUNCTION CALL WITH COMBINATION OF VACCINATION STRATEGIES`, otherwise the previous one in the code. Then, you can comment or uncomment the plotting function calls to show certain graphs instead of others.
 
 ## Directory structure (only main elements)
 ```
