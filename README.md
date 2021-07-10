@@ -1,5 +1,5 @@
 # SIRVSD model with age groups
-Implementation of a SIRVSD model with different age groups and heterogeneous contacs in Python for Computational Models for Complex Systems Course.<br>
+Implementation of a SIRVSD model with different age groups and heterogeneous contacts in Python for Computational Models for Complex Systems Course.<br>
 Check the [presentation](https://github.com/Musca23/SIRVSD-model-with-age-groups/blob/main/SIRVSD_model_presentation_MURGIA_PDF.pdf) to get an idea of ​​how the model was defined and for the results of the qualitative analysis (also present in the [Jupyter Notebook](https://github.com/Musca23/SIRVSD-model-with-age-groups/blob/main/notebooks/experiments_plots.ipynb))
 ## Usage
 
